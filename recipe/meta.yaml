@@ -1,5 +1,4 @@
 {% set version = "1.14.1" %}
-{% set sha256 = "e0173a675363463c63f52a215e4b3f1bfb28c901d70fe7eea420b5dc4aa591cb" %}
 
 package:
   name: azure-core-cpp
@@ -7,7 +6,7 @@ package:
 
 source:
   url: https://github.com/Azure/azure-sdk-for-cpp/archive/refs/tags/azure-core_{{ version }}.tar.gz
-  sha256: {{ sha256 }}
+  sha256: e0173a675363463c63f52a215e4b3f1bfb28c901d70fe7eea420b5dc4aa591cb
   patches:
     # https://github.com/Azure/azure-sdk-for-cpp/issues/4784
     # https://github.com/Azure/azure-sdk-for-cpp/pull/4785
@@ -22,13 +21,14 @@ build:
 requirements:
   build:
     - {{ compiler("cxx") }}
-    - {{ stdlib("c") }}
     - cmake
     - ninja
+    - patch     # [unix]
+    - m2-patch  # [win]
   host:
-    - libcurl  # [not win]
-    - openssl  # [not win]
-    - wil  # [win]
+    - libcurl {{ libcurl }}  # [unix]
+    - openssl {{ openssl }}  # [unix]
+    - wil 1.0                # [win]
 
 test:
   requires:
