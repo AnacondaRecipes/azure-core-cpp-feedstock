@@ -1,4 +1,4 @@
-{% set version = "1.14.1" %}
+{% set version = "1.16.1" %}
 
 package:
   name: azure-core-cpp
@@ -6,14 +6,14 @@ package:
 
 source:
   url: https://github.com/Azure/azure-sdk-for-cpp/archive/refs/tags/azure-core_{{ version }}.tar.gz
-  sha256: e0173a675363463c63f52a215e4b3f1bfb28c901d70fe7eea420b5dc4aa591cb
+  sha256: 4d2a85be0a5b7ced9a75cb89434fa6c0712784fb3dfd5d378514197bf9d21e96
   patches:
     # https://github.com/Azure/azure-sdk-for-cpp/issues/4784
     # https://github.com/Azure/azure-sdk-for-cpp/pull/4785
     - 0001-remove-wil-from-exported-config.patch
 
 build:
-  number: 1
+  number: 0
   run_exports:
     - {{ pin_subpackage("azure-core-cpp", max_pin="x.x.x") }}
 
@@ -23,8 +23,6 @@ requirements:
     - {{ compiler("cxx") }}
     - cmake
     - ninja
-    - patch     # [unix]
-    - m2-patch  # [win]
   host:
     - libcurl {{ libcurl }}  # [unix]
     - openssl {{ openssl }}  # [unix]
@@ -56,7 +54,7 @@ test:
     - cmake --build test-linking-bld --target test
 
 about:
-  home: https://github.com/Azure/azure-sdk-for-cpp/
+  home: https://github.com/Azure/azure-sdk-for-cpp
   summary: Azure SDK Core Library for C++
   description: >-
     Azure::Core (`azure-core`) provides shared primitives, abstractions, and helpers for modern Azure SDK client libraries written in the C++
@@ -65,8 +63,8 @@ about:
   license_file:
     - LICENSE.txt
     - sdk/core/azure-core/NOTICE.txt
-  doc_url: https://azure.github.io/azure-sdk-for-cpp/
-  dev_url: https://github.com/Azure/azure-sdk-for-cpp/tree/main/sdk/core/azure-core/
+  doc_url: https://azure.github.io/azure-sdk-for-cpp
+  dev_url: https://github.com/Azure/azure-sdk-for-cpp/tree/main/sdk/core/azure-core
 
 extra:
   recipe-maintainers:
