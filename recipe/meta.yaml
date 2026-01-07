@@ -20,6 +20,7 @@ build:
 # https://github.com/Azure/azure-sdk-for-cpp/blob/main/sdk/core/azure-core/vcpkg.json
 requirements:
   build:
+    - {{ stdlib("c") }}
     - {{ compiler("cxx") }}
     - cmake
     - ninja
