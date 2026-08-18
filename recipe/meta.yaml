@@ -1,12 +1,13 @@
-{% set version = "1.16.1" %}
+{% set version = "1.16.4" %}
 
+# https://github.com/Azure/azure-sdk-for-cpp/blob/main/sdk/core/azure-core/vcpkg.json
 package:
   name: azure-core-cpp
   version: {{ version }}
 
 source:
   url: https://github.com/Azure/azure-sdk-for-cpp/archive/refs/tags/azure-core_{{ version }}.tar.gz
-  sha256: 4d2a85be0a5b7ced9a75cb89434fa6c0712784fb3dfd5d378514197bf9d21e96
+  sha256: 25f8badf23c66ae82debd95e0d074d6269b276e5fa2ce5d4d3cff38fda9ab8c2
   patches:
     # https://github.com/Azure/azure-sdk-for-cpp/issues/4784
     # https://github.com/Azure/azure-sdk-for-cpp/pull/4785
@@ -17,7 +18,6 @@ build:
   run_exports:
     - {{ pin_subpackage("azure-core-cpp", max_pin="x.x.x") }}
 
-# https://github.com/Azure/azure-sdk-for-cpp/blob/main/sdk/core/azure-core/vcpkg.json
 requirements:
   build:
     - {{ stdlib("c") }}
@@ -27,7 +27,7 @@ requirements:
   host:
     - libcurl {{ libcurl }}  # [unix]
     - openssl {{ openssl }}  # [unix]
-    - wil 1.0                # [win]
+    - wil 1.0  # [win]
 
 test:
   requires:
@@ -36,20 +36,17 @@ test:
     - ninja
   commands:
     # shared libs
-    - test -f ${PREFIX}/lib/libazure-core${SHLIB_EXT}   # [unix]
+    - test -f ${PREFIX}/lib/libazure-core${SHLIB_EXT}  # [unix]
     - if not exist %LIBRARY_BIN%\azure-core.dll exit 1  # [win]
     - if not exist %LIBRARY_LIB%\azure-core.lib exit 1  # [win]
-
     # headers
-    - test -f ${PREFIX}/include/azure/core.hpp    # [unix]
+    - test -f ${PREFIX}/include/azure/core.hpp  # [unix]
     - if not exist %LIBRARY_INC%\azure\core.hpp exit 1  # [win]
-
     # CMake metadata
-    - test -f ${PREFIX}/share/azure-core-cpp/azure-core-cppTargets.cmake                     # [unix]
+    - test -f ${PREFIX}/share/azure-core-cpp/azure-core-cppTargets.cmake  # [unix]
     - if not exist %LIBRARY_PREFIX%\share\azure-core-cpp\azure-core-cppTargets.cmake exit 1  # [win]
-
     # CMake find_package() and target_link_libraries()
-    - cmake $CMAKE_ARGS -G Ninja -S $RECIPE_DIR/test-linking-src -B test-linking-bld    # [unix]
+    - cmake $CMAKE_ARGS -G Ninja -S $RECIPE_DIR/test-linking-src -B test-linking-bld  # [unix]
     - cmake %CMAKE_ARGS% -G Ninja -S %RECIPE_DIR%\test-linking-src -B test-linking-bld  # [win]
     - cmake --build test-linking-bld
     - cmake --build test-linking-bld --target test
