@@ -1,12 +1,13 @@
-{% set version = "1.16.1" %}
+{% set name = "azure-core-cpp" %}
+{% set version = "1.16.3" %}
 
 package:
-  name: azure-core-cpp
+  name: {{ name }}
   version: {{ version }}
 
 source:
   url: https://github.com/Azure/azure-sdk-for-cpp/archive/refs/tags/azure-core_{{ version }}.tar.gz
-  sha256: 4d2a85be0a5b7ced9a75cb89434fa6c0712784fb3dfd5d378514197bf9d21e96
+  sha256: 70d5d2aea5ece95148ee8b71fb302ae35a1178e58b58150a14df8866a0c54464
   patches:
     # https://github.com/Azure/azure-sdk-for-cpp/issues/4784
     # https://github.com/Azure/azure-sdk-for-cpp/pull/4785
